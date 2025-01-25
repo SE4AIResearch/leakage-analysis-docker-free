@@ -50,6 +50,8 @@ jobs:
     - name: Run PyInstaller
       shell: bash
       run: |
+        pwd
+        ls
         pyinstaller main.py
       if: runner.os != 'Windows'
 
