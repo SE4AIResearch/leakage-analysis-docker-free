@@ -59,6 +59,20 @@ jobs:
         pyinstaller src\main.py
       if: runner.os == 'Windows'
 
+    - name: Setup Pyright
+      shell: bash
+      run: |
+        mkdir dist/main/_internal/pyright
+        cp res/pyright-1.1.188.tgz dist/main/_internal/pyright
+      if: runner.os != 'Windows'
+
+    - name: Setup Pyright (Windows)
+      shell: cmd
+      run: |
+        mkdir dist\main\_internal\pyright
+        copy res\pyright-1.1.188.tgz dist\main\_internal\pyright
+      if: runner.os == 'Windows'
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
