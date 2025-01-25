@@ -52,13 +52,13 @@ jobs:
       run: |
         pwd
         ls
-        pyinstaller main.py
+        pyinstaller src/main.py
       if: runner.os != 'Windows'
 
     - name: Run PyInstaller (Windows)
       shell: cmd
       run: |
-        pyinstaller main.py
+        pyinstaller src\main.py
       if: runner.os == 'Windows'
 
     - name: Upload build artifacts
