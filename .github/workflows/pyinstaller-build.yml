@@ -73,6 +73,24 @@ jobs:
         copy res\pyright-1.1.188.tgz dist\main\_internal\pyright
       if: runner.os == 'Windows'
 
+    - name: Copy Dependencies (Linux)
+      shell: bash
+      run: |
+        cp res/linux/* dist/main/_internal
+      if: runner.os == 'Linux'
+
+    - name: Copy Dependencies (MacOs)
+      shell: bash
+      run: |
+        cp res/mac/* dist/main/_internal
+      if: runner.os == 'macOS'
+
+    - name: Copy Dependencies (Windows)
+      shell: cmd
+      run: |
+        copy res\windows\* dist\main\_internal
+      if: runner.os == 'Windows'
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
