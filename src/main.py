@@ -110,8 +110,7 @@ def datalog_analysis(fact_path):
     if platform.uname().system == "Windows":
         ret = os.system(f"leakage_algo_windows.exe -F {fact_path} -D {fact_path}")
     elif platform.uname().system == "Linux":
-        # ret = os.system(f"./leakage_algo_linux -F {fact_path} -D {fact_path}")
-        print("running main.dl on linux!")
+        subprocess.run(["./leakage_algo_linux", "-F", fact_path, "-D", fact_path])
         ret = 0
     else:
         ret = os.system(f"souffle ./main.dl -F {fact_path} -D {fact_path}")
