@@ -69,9 +69,9 @@ def infer_types(ir_path):
         else:
             env.pop(lp_key, None)
 
-        subprocess.run(["node", configs.inference_path, ir_path, "--lib"], env=env)
+        subprocess.run(["node", configs.inference_path, ir_path, "--lib"], env=env, timeout=3600)
     else: 
-        os.system(f"node {configs.inference_path} {ir_path} --lib")
+        subprocess.run(["node", configs.inference_path, ir_path, "--lib"], timeout=3600)
 
 def generate_lineno_mapping(tree1, tree2):
     lineno_map = {}
