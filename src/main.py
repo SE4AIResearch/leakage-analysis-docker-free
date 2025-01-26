@@ -105,18 +105,12 @@ def generate_facts(tree, json_path, fact_path):
 
 @time_decorator
 def datalog_analysis(fact_path):
-    ret = None
-
     if platform.uname().system == "Windows":
-        ret = os.system(f"leakage_algo_windows.exe -F {fact_path} -D {fact_path}")
+        subprocess.run(["leakage_algo_windows.exe", "-F", fact_path, "-D", fact_path])
     elif platform.uname().system == "Linux":
         subprocess.run(["./leakage_algo_linux", "-F", fact_path, "-D", fact_path])
-        ret = 0
     else:
-        ret = os.system(f"souffle ./main.dl -F {fact_path} -D {fact_path}")
-
-    if ret != 0:
-        raise TimeoutError
+        subprocess.run(["souffle", "./main.dl", "-F", fact_path, "-D", fact_path])
 
 def main(input_path):
     ir_path = input_path +".ir.py"
