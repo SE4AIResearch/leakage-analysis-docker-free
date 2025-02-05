@@ -1,4 +1,4 @@
 astunparse==1.6.3
 Pygments==2.10.0
-pandas
+pandas==2.0.0
 pyinstaller
