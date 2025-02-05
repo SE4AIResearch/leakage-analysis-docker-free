@@ -56,7 +56,7 @@ jobs:
     - name: Run PyInstaller (Windows)
       shell: cmd
       run: |
-        pyinstaller src\main.py
+        pyinstaller src\main.py --debug=imports
       if: runner.os == 'Windows'
 
     - name: Setup Pyright
