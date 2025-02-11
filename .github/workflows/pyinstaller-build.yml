@@ -98,6 +98,7 @@ jobs:
         npm i pyright-1.1.188.tgz
         popd
         dist\main\main.exe tests\inputs\nb_100841.py -o
+        dir tests\inputs
       if: runner.os == 'Windows'
 
     - name: Upload build artifacts
