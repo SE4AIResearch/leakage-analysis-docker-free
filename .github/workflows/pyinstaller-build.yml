@@ -94,12 +94,7 @@ jobs:
     - name: Test PyInstaller build (Windows)
       shell: cmd
       run: |
-        pushd dist\main\_internal\pyright
-        npm i pyright-1.1.188.tgz
-        popd
-        dist\main\main.exe tests\inputs\nb_100841.py -o
-        cd tests\inputs
-        dir
+        pushd dist\main\_internal\pyright && npm i pyright-1.1.188.tgz && popd && dist\main\main.exe tests\inputs\nb_100841.py -o && cd tests\inputs && dir
       if: runner.os == 'Windows'
 
     - name: Upload build artifacts
