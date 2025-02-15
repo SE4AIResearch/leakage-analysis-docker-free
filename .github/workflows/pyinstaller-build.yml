@@ -56,7 +56,7 @@ jobs:
     - name: Run PyInstaller (Windows)
       shell: cmd
       run: |
-        pyinstaller src\main.py --hidden-import=numpy.core._multiarray_umath
+        pyinstaller src\main.py
       if: runner.os == 'Windows'
 
     - name: Setup Pyright
