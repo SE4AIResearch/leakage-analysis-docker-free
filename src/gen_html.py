@@ -2,6 +2,8 @@ from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
 import os
+import sys
+import json
 import pandas as pd
 from collections import defaultdict
 
@@ -139,7 +141,17 @@ def load_info(fact_path, filename, labels, info, invos=()):
     df.apply(append_info, axis=1, result_type="reduce")
     return df
 
-def to_html(input_path, fact_path, html_path, lineno_map):
+def to_html():
+    html_json_path = sys.argv[1]
+
+    with open(html_json_path, "r") as f:
+        html_json_data = json.load(f)
+
+    input_path = html_json_data["input_path"]
+    fact_path = html_json_data["fact_path"]
+    html_path = html_json_data["html_path"]
+    lineno_map = html_json_data["lineno_map"]
+
     with open(input_path) as f:
         code = f.read()
     html = highlight(code, PythonLexer(), HtmlFormatter(full=True, linenos=True))
@@ -237,3 +249,6 @@ def to_html(input_path, fact_path, html_path, lineno_map):
     html_lines[html_lines.index('pre { line-height: 125%; }')] = 'pre { line-height: 145%; }'
     with open(html_path, "w") as f:
         f.write('\n'.join(html_lines))
+
+if __name__ == "__main__":
+    to_html()

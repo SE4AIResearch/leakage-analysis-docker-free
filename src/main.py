@@ -1,4 +1,5 @@
 import os, sys, subprocess
+import json
 import ast
 import astunparse
 import shutil
@@ -117,6 +118,7 @@ def main(input_path):
     json_path = input_path + ".json"
     fact_path = input_path[:-3] + "-fact"
     html_path = input_path[:-3] + ".html"
+    html_json_path = input_path[:-3] + "-data.json"
     t = [None]*6
 
     tree, t[0] = load_input(input_path)
@@ -164,7 +166,20 @@ def main(input_path):
     if configs.output_flag:
         print("Converting notebooks to html...")
         try:
-            to_html(input_path, fact_path, html_path, lineno_map)
+            if platform.uname().system == "Windows":
+                html_json_data = {
+                    "input_path": input_path,
+                    "fact_path": fact_path,
+                    "html_path": html_path,
+                    "lineno_map": lineno_map
+                }
+
+                with open(html_json_path, "w") as json_file:
+                    json.dump(html_json_data, json_file)
+                
+                subprocess.run(["gen_html.exe", html_json_path])
+            else:
+                to_html(input_path, fact_path, html_path, lineno_map)
         except:
             print("Conversion failed!")
     
