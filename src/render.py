@@ -239,3 +239,4 @@ def to_html(input_path, fact_path, html_path, lineno_map):
         f.write('\n'.join(html_lines))
 
 print(pd)
+print(get_columns("Telemetry_ModelPair.csv"))
