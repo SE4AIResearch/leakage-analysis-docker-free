@@ -32,3 +32,10 @@ jobs:
       run: |
         pyinstaller src\test.py --onefile
         dir
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-build
+        path: dist
+        retention-days: 7
