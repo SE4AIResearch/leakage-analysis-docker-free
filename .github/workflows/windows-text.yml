@@ -30,7 +30,7 @@ jobs:
     - name: Run PyInstaller (Windows)
       shell: cmd
       run: |
-        pyinstaller src\render.py --onefile
+        pyinstaller src\gen_html.py --onefile
         dir
 
     - name: Upload build artifacts
