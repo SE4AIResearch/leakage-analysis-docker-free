@@ -237,3 +237,5 @@ def to_html(input_path, fact_path, html_path, lineno_map):
     html_lines[html_lines.index('pre { line-height: 125%; }')] = 'pre { line-height: 145%; }'
     with open(html_path, "w") as f:
         f.write('\n'.join(html_lines))
+
+print(pd)
