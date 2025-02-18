@@ -11,7 +11,6 @@ from src.global_collector import GlobalCollector
 import src.factgen as factgen
 from src.irgen import CodeTransformer
 from src.config import configs
-from src.render import to_html
 
 def remove_files(folder):
     for filename in os.listdir(folder):
@@ -166,20 +165,17 @@ def main(input_path):
     if configs.output_flag:
         print("Converting notebooks to html...")
         try:
-            if platform.uname().system == "Windows":
-                html_json_data = {
-                    "input_path": input_path,
-                    "fact_path": fact_path,
-                    "html_path": html_path,
-                    "lineno_map": lineno_map
-                }
+            html_json_data = {
+                "input_path": input_path,
+                "fact_path": fact_path,
+                "html_path": html_path,
+                "lineno_map": lineno_map
+            }
 
-                with open(html_json_path, "w") as json_file:
-                    json.dump(html_json_data, json_file)
-                
-                subprocess.run(["gen_html.exe", html_json_path])
-            else:
-                to_html(input_path, fact_path, html_path, lineno_map)
+            with open(html_json_path, "w") as json_file:
+                json.dump(html_json_data, json_file)
+            
+            subprocess.run(["gen_html.exe", html_json_path])
         except:
             print("Conversion failed!")
     
