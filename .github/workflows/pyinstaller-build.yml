@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-15, macos-latest, macos-13, windows-2022, ubuntu-22.04]
+        os: [macos-15, macos-latest, macos-13, ubuntu-22.04]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -23,55 +23,23 @@ jobs:
         python -m venv venv
         source venv/bin/activate
         echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
-      if: runner.os != 'Windows'
-
-    - name: Create and activate virtual environment (Windows)
-      shell: cmd
-      run: |
-        python -m venv venv
-        call venv\Scripts\activate
-        echo VIRTUAL_ENV=%VIRTUAL_ENV% >> %GITHUB_ENV%
-      if: runner.os == 'Windows'
 
     - name: Install dependencies
       shell: bash
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-      if: runner.os != 'Windows'
-
-    - name: Install dependencies (Windows)
-      shell: cmd
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-      if: runner.os == 'Windows'
 
     - name: Run PyInstaller
       shell: bash
       run: |
         pyinstaller src/main.py
-      if: runner.os != 'Windows'
-
-    - name: Run PyInstaller (Windows)
-      shell: cmd
-      run: |
-        pyinstaller src\main.py --hidden-import=numpy.core._multiarray_umath
-      if: runner.os == 'Windows'
 
     - name: Setup Pyright
       shell: bash
       run: |
         mkdir dist/main/_internal/pyright
         cp res/pyright-1.1.188.tgz dist/main/_internal/pyright
-      if: runner.os != 'Windows'
-
-    - name: Setup Pyright (Windows)
-      shell: cmd
-      run: |
-        mkdir dist\main\_internal\pyright
-        copy res\pyright-1.1.188.tgz dist\main\_internal\pyright
-      if: runner.os == 'Windows'
 
     - name: Copy Dependencies (Linux)
       shell: bash
@@ -79,23 +47,11 @@ jobs:
         cp res/linux/* dist/main/_internal
       if: runner.os == 'Linux'
 
-    - name: Copy Dependencies (MacOs)
-      shell: bash
-      run: |
-        cp res/mac/* dist/main/_internal
-      if: runner.os == 'macOS'
-
-    - name: Copy Dependencies (Windows)
-      shell: cmd
-      run: |
-        copy res\windows\* dist\main\_internal
-      if: runner.os == 'Windows'
-    
-    - name: Test PyInstaller build (Windows)
-      shell: cmd
-      run: |
-        pushd dist\main\_internal\pyright && npm i pyright-1.1.188.tgz && popd && dist\main\main.exe "D:\a\leakage-analysis-docker-free\leakage-analysis-docker-free\tests\inputs\nb_100841.py" -o && cd tests\inputs && dir
-      if: runner.os == 'Windows'
+    # - name: Copy Dependencies (MacOs)
+    #   shell: bash
+    #   run: |
+    #     cp res/mac/* dist/main/_internal
+    #   if: runner.os == 'macOS'
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
